@@ -25,9 +25,11 @@ function FilterButton({ clickHandler, inputText, theme, type, isActive }: IProps
   }, [isActive]);
 
   return (
+    /* eslint-disable react/button-has-type */
     <button className={classes.join(' ')} onClick={clickHandler} type={type}>
       {inputText}
     </button>
+    /* eslint-enable react/button-has-type */
   );
 }
 

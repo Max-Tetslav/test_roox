@@ -15,9 +15,11 @@ function FormButton({ content, type, clickHandler, theme, isDisabled }: IProps):
   const [classes] = useState(theme === EButtonThemes.primary ? [cl.button, cl.primaryTheme] : [cl.button, cl.greenTheme]);
 
   return (
+    /* eslint-disable react/button-has-type */
     <button className={classes.join(' ')} type={type} onClick={clickHandler} disabled={isDisabled}>
       {content}
     </button>
+    /* eslint-disable react/button-has-type */
   );
 }
 

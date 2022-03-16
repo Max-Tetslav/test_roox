@@ -70,7 +70,9 @@ function UserForm() {
       if (validList.length === 0) {
         setIsSubmitDisabled(!isSubmitDisabled);
         setIsInputDisabled(!isInputDisabled);
+        /* eslint-disable no-console */
         console.log(result);
+        /* eslint-disable no-console */
       } else {
         validList.forEach((item) => {
           item.style.border = '1px solid red';
