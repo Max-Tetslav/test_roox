@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/test_roox/static/css/main.55832162.css",
+    "main.js": "/test_roox/static/js/main.1d2ba15c.js",
+    "index.html": "/test_roox/index.html",
+    "main.55832162.css.map": "/test_roox/static/css/main.55832162.css.map",
+    "main.1d2ba15c.js.map": "/test_roox/static/js/main.1d2ba15c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.55832162.css",
+    "static/js/main.1d2ba15c.js"
+  ]
+}
