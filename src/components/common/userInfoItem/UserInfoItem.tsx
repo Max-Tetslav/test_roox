@@ -1,12 +1,12 @@
 import React from 'react';
 import cl from './UserInfoItem.module.scss';
 
-interface IProps {
+interface IUserInfoItemProps {
   title: string;
   content: string;
 }
 
-function UserInfoItem({ title, content }: IProps) {
+const UserInfoItem: React.FC<IUserInfoItemProps> = ({ title, content }) => {
   return (
     <p className={cl.item}>
       <span className={cl.itemTitle}>
@@ -15,6 +15,6 @@ function UserInfoItem({ title, content }: IProps) {
       {content}
     </p>
   );
-}
+};
 
 export default UserInfoItem;

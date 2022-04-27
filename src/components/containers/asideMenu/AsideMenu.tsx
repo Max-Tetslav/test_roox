@@ -1,23 +1,30 @@
 import React, { useCallback, useState } from 'react';
-import { updateFilter } from '../../../store/reducers/filtersReducer';
-import { useAppDispatch, useAppSelector } from '../../../store/store';
-import EButtonThemes from '../../../types/EButtonThemes';
-import EButtonTypes from '../../../types/EButtonTypes';
-import EFilters from '../../../types/EFilters';
-import Button from '../../common/filterButton/FilterButton';
+import { useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'store/store';
+import { updateFilter } from 'store/reducers/filtersReducer';
+import {
+  EFilters,
+  EButtonNames,
+  EButtonTypes,
+  EButtonThemes,
+} from 'models/buttonTypes';
+import MyButton from 'components/common/myButton/MyButton';
 import cl from './AsideMenu.module.scss';
 
-function AsideMenu() {
+const AsideMenu: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const filter = useAppSelector((state) => state.filter.current);
   const [isCityActive, setIsCityActive] = useState(false);
   const [isNameActive, setIsNameActive] = useState(false);
-  const filterState = useAppSelector((state) => state.filters.current);
-  const dispatch = useAppDispatch();
+
+  const isProfilePage = location.pathname.includes('user');
 
   const cityClickHandler = useCallback(() => {
     if (isNameActive) {
       setIsNameActive(!isNameActive);
     }
-    if (filterState !== EFilters.city) {
+    if (filter !== EFilters.city) {
       dispatch(updateFilter(EFilters.city));
     } else {
       dispatch(updateFilter(null));
@@ -29,7 +36,7 @@ function AsideMenu() {
     if (isCityActive) {
       setIsCityActive(!isCityActive);
     }
-    if (filterState !== EFilters.name) {
+    if (filter !== EFilters.name) {
       dispatch(updateFilter(EFilters.name));
     } else {
       dispatch(updateFilter(null));
@@ -41,23 +48,25 @@ function AsideMenu() {
     <aside className={cl.aside}>
       <form className={cl.form}>
         <h3>Сортировка</h3>
-        <Button
-          inputText="По имени"
+        <MyButton
+          content={EButtonNames.BY_NAME}
           isActive={isNameActive}
-          type={EButtonTypes.button}
+          type={EButtonTypes.BUTTON}
           theme={EButtonThemes.primary}
-          clickHandler={nameClickHandler}
+          onClick={nameClickHandler}
+          disabled={isProfilePage}
         />
-        <Button
-          inputText="По городу"
+        <MyButton
+          content={EButtonNames.BY_CITY}
           isActive={isCityActive}
-          type={EButtonTypes.button}
+          type={EButtonTypes.BUTTON}
           theme={EButtonThemes.primary}
-          clickHandler={cityClickHandler}
+          onClick={cityClickHandler}
+          disabled={isProfilePage}
         />
       </form>
     </aside>
   );
-}
+};
 
 export default AsideMenu;

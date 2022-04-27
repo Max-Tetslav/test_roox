@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import EFilters from '../../types/EFilters';
-import { IFilterState } from '../../types/store';
+import { EFilters } from 'models/buttonTypes';
+
+import { IFilterState } from '../../models/storeTypes';
 
 export const initialState: IFilterState = {
   current: null,

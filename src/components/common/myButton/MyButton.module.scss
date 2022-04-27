@@ -1,0 +1,26 @@
+.primaryTheme {
+  background-color: var(--blue-primary);
+}
+
+.greenTheme {
+  background-color: var(--green-primary);
+}
+
+.button {
+  border: none;
+  border-radius: 10px;
+  color: var(--white);
+  font-size: 14px;
+  height: 30px;
+  width: 150px;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: var(--disable-button);
+    border: none;
+  }
+}
+
+.active {
+  border: 2px solid var(--green-primary);
+}

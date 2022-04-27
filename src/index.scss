@@ -1,52 +1,54 @@
-@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Exo+2&display=swap");
 
 * {
   box-sizing: border-box;
-  font-family: 'Exo 2', sans-serif;
+  font-family: "Exo 2", sans-serif;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
 }
 
-button {
-  background-color: inherit;
-  border: none;
-  cursor: pointer;
-}
-
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family:
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Courier New",
     monospace;
 }
 
-#app-root {
+:root {
+  --blue-primary: #4b51ef;
+  --green-primary: #52cf4f;
+  --red-primary: #d91313;
+  --aside-gray: #bdbdbd;
+  --disable-button: #afafaf;
+  --input-border: #d8d8d8;
+  --form-border: #f3f3f3;
+  --white: #fff;
+}
+
+#root {
   height: 100%;
   flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.mainContainer{
-  min-width: 50%;
-  max-width: 90%;
-  min-height: 60%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #007bff;
-  border-radius: 30px;
-}
-
-.mainTitle{
-  text-align: center;
 }

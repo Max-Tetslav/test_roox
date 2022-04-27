@@ -1,11 +1,14 @@
 .form {
+  width: 100%;
   padding: 20px 0;
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
 }
 
-.formHeader{
+.formHeader {
+  width: inherit;
   display: flex;
   justify-content: space-between;
 
@@ -15,20 +18,13 @@
 }
 
 .inputsContainer {
+  width: inherit;
   height: 550px;
   padding: 20px 12px;
   margin: 10px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #F3F3F3;
+  border: 1px solid var(--form-border);
   border-radius: 8px;
 }
-
-.formFooter {
-  display: flex;
-  justify-content: flex-end;
-}
-
-
-

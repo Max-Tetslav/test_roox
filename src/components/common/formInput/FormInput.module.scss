@@ -1,0 +1,25 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  position: relative;
+}
+
+.input {
+  width: 220px;
+  height: 28px;
+  border-radius: 5px;
+  border: 1px solid var(--input-border);
+  outline: none;
+}
+
+.error {
+  border: 1px solid var(--red-primary);
+}
+
+.errorText {
+  position: absolute;
+  left: 250px;
+  top: 45%;
+  color: var(--red-primary);
+}

@@ -1,10 +1,5 @@
-.wordsContainer {
-  min-height: 50%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .container {
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -19,7 +14,7 @@
 .loadingContainer {
   width: 200px;
   height: 200px;
-  border: 3px dashed #4B51EF;
+  border: 3px dashed var(--blue-primary);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -31,9 +26,11 @@
   0% {
     transform: rotate(0) scale(1);
   }
+
   50% {
     transform: rotate(360deg) scale(1.2);
   }
+
   100% {
     transform: rotate(0) scale(1);
   }

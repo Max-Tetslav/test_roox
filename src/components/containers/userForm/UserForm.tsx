@@ -1,115 +1,140 @@
-import React, { FormEvent, useCallback, useRef, useState } from 'react';
-import { useAppSelector } from '../../../store/store';
-import EButtonThemes from '../../../types/EButtonThemes';
-import EButtonTypes from '../../../types/EButtonTypes';
-import { IUser } from '../../../types/IUser';
-import FormButton from '../../common/formButton/FormButton';
-import FormTextarea from '../../common/formTextarea/FormTextarea';
-import UserInput from '../../common/userInput/UserInput';
+import React, { useCallback, useState } from 'react';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import { EButtonNames, EButtonThemes, EButtonTypes } from 'models/buttonTypes';
+import { EInputNames, EInputTypes } from 'models/inputTypes';
+import FormInput from 'components/common/formInput/FormInput';
+import MyButton from 'components/common/myButton/MyButton';
 import cl from './UserForm.module.scss';
 
-function UserForm() {
-  const [isEditDisabled] = useState(false);
+const UserForm: React.FC = () => {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [isInputDisabled, setIsInputDisabled] = useState(true);
-  const nameInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const usernameInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const emailInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const streetInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const cityInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const codeInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const phoneInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const websiteInput: React.MutableRefObject<HTMLInputElement | null> = useRef(null);
-  const commentInput: React.MutableRefObject<HTMLTextAreaElement | null> = useRef(null);
-  const user = useAppSelector((state) => state.user.current);
+  const user = JSON.parse(localStorage.getItem('currentUser'));
 
   const editHandler = useCallback(() => {
     setIsInputDisabled(!isInputDisabled);
     setIsSubmitDisabled(!isSubmitDisabled);
   }, [isInputDisabled]);
 
-  const validateForm = () => {
-    const validList = [];
-
-    if (nameInput.current?.value === '') {
-      validList.push(nameInput.current);
-    }
-    if (usernameInput.current?.value === '') {
-      validList.push(usernameInput.current);
-    }
-    if (emailInput.current?.value === '') {
-      validList.push(emailInput.current);
-    }
-    if (streetInput.current?.value === '') {
-      validList.push(streetInput.current);
-    }
-    if (cityInput.current?.value === '') {
-      validList.push(cityInput.current);
-    }
-    if (codeInput.current?.value === '') {
-      validList.push(codeInput.current);
-    }
-    if (phoneInput.current?.value === '') {
-      validList.push(phoneInput.current);
-    }
-    if (websiteInput.current?.value === '') {
-      validList.push(websiteInput.current);
-    }
-
-    return validList;
-  };
-
-  const submitHandler = useCallback(
-    (event: FormEvent) => {
-      event.preventDefault();
-
-      const data = new FormData(event.target as HTMLFormElement);
-      const result = Object.fromEntries(data.entries());
-      const validList = validateForm();
-
-      if (validList.length === 0) {
-        setIsSubmitDisabled(!isSubmitDisabled);
-        setIsInputDisabled(!isInputDisabled);
-        /* eslint-disable no-console */
-        console.log(result);
-        /* eslint-disable no-console */
-      } else {
-        validList.forEach((item) => {
-          item.style.border = '1px solid red';
-        });
-      }
-    },
-    [isInputDisabled, isSubmitDisabled],
-  );
-
   return (
-    <form className={cl.form} onSubmit={submitHandler}>
-      <div className={cl.formHeader}>
-        <h2 className={cl.pageTitle}>Профиль пользователя</h2>
-        <FormButton
-          clickHandler={editHandler}
-          content="Редактировать"
-          type={EButtonTypes.button}
-          theme={EButtonThemes.primary}
-          isDisabled={isEditDisabled}
+    <Formik
+      initialValues={{
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        street: user.address.street,
+        city: user.address.city,
+        zipcode: user.address.zipcode,
+        phone: user.phone,
+        website: user.website,
+        comment: '',
+      }}
+      validationSchema={Yup.object({
+        email: Yup.string()
+          .email('Неверный email адрес')
+          .required('Обязательное поле!'),
+        name: Yup.string().required('Обязательное поле!'),
+        username: Yup.string().required('Обязательное поле!'),
+        street: Yup.string().required('Обязательное поле!'),
+        city: Yup.string().required('Обязательное поле!'),
+        zipcode: Yup.string()
+          .required('Обязательное поле!')
+          .matches(/^\d+[-]?\d+$/i, {
+            message:
+              'Zipcode не соответствует формату 0-9("-" необязательно)0-9',
+          }),
+        phone: Yup.string().required('Обязательное поле!'),
+        website: Yup.string()
+          .required('Обязательное поле!')
+          .matches(/^[a-z]+[.][a-z]+$/i, {
+            message: 'Website не соответствует формату a-z.a-z',
+          }),
+      })}
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={(values) => {
+        /* eslint-disable */
+        console.log(values);
+        /* eslint-enable */
+      }}
+    >
+      <Form className={cl.form}>
+        <div className={cl.formHeader}>
+          <h2 className={cl.pageTitle}>Профиль пользователя</h2>
+          <MyButton
+            type={EButtonTypes.BUTTON}
+            onClick={editHandler}
+            content={EButtonNames.EDIT}
+            theme={EButtonThemes.primary}
+            disabled={false}
+          />
+        </div>
+        <div className={cl.inputsContainer}>
+          <FormInput
+            title={EInputNames.NAME}
+            name={EInputNames.NAME.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.USERNAME}
+            name={EInputNames.USERNAME.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.EMAIL}
+            name={EInputNames.EMAIL.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.STREET}
+            name={EInputNames.STREET.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.CITY}
+            name={EInputNames.CITY.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.ZIPCODE}
+            name={EInputNames.ZIPCODE.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.PHONE}
+            name={EInputNames.PHONE.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.WEBSITE}
+            name={EInputNames.WEBSITE.toLocaleLowerCase()}
+            type={EInputTypes.TEXT}
+            disabled={isInputDisabled}
+          />
+          <FormInput
+            title={EInputNames.COMMENT}
+            name={EInputNames.COMMENT.toLocaleLowerCase()}
+            type={EInputTypes.TEXTAREA}
+            disabled={isInputDisabled}
+          />
+        </div>
+        <MyButton
+          content={EButtonNames.SEND}
+          type={EButtonTypes.SUBMIT}
+          theme={EButtonThemes.green}
+          disabled={isSubmitDisabled}
         />
-      </div>
-      <div className={cl.inputsContainer}>
-        <UserInput title="Name" content={(user as IUser).name} isDisabled={isInputDisabled} refLink={nameInput} />
-        <UserInput title="Username" content={(user as IUser).username} isDisabled={isInputDisabled} refLink={usernameInput} />
-        <UserInput title="Email" content={(user as IUser).email} isDisabled={isInputDisabled} refLink={emailInput} />
-        <UserInput title="Street" content={(user as IUser).address.street} isDisabled={isInputDisabled} refLink={streetInput} />
-        <UserInput title="City" content={(user as IUser).address.city} isDisabled={isInputDisabled} refLink={cityInput} />
-        <UserInput title="Zipcode" content={(user as IUser).address.zipcode} isDisabled={isInputDisabled} refLink={codeInput} />
-        <UserInput title="Phone" content={(user as IUser).phone} isDisabled={isInputDisabled} refLink={phoneInput} />
-        <UserInput title="Website" content={(user as IUser).website} isDisabled={isInputDisabled} refLink={websiteInput} />
-        <FormTextarea title="Comment" isDisabled={isInputDisabled} refLink={commentInput} />
-      </div>
-      <div className={cl.formFooter}>
-        <FormButton content="Отправить" type={EButtonTypes.submit} theme={EButtonThemes.green} isDisabled={isSubmitDisabled} />
-      </div>
-    </form>
+      </Form>
+    </Formik>
   );
-}
+};
 
 export default UserForm;
